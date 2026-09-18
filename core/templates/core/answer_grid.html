@@ -1,0 +1,9 @@
+{% comment %} Usage: {% include "core/_answer_grid.html" %} — needs question_range in context {% endcomment %}
+<div class="answer-grid">
+  {% for i in question_range %}
+    <div class="answer-cell">
+      <span class="qn numeral">{{ i }}</span>
+      <input type="text" name="q{{ i }}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    </div>
+  {% endfor %}
+</div>

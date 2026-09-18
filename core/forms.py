@@ -41,5 +41,11 @@ class WritingScoreForm(forms.Form):
     task2_score = forms.DecimalField(
         max_digits=3, decimal_places=1, min_value=0, max_value=9,
         required=False,
-        widget=forms.NumberInput(attrs={"step": "0.5", "placeholder": "e.g. 6.5"}),
+        widget=forms.NumberInput(attrs={"step": "0.5","placeholder": "e.g. 6.5"}),
+    )
+    
+class RawScoreForm(forms.Form):
+    score = forms.IntegerField(
+        min_value=0, max_value=40,
+        widget=forms.NumberInput(attrs={"placeholder": "out of 40"}),
     )

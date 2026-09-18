@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
-from .models import WritingTest
-from .forms import WritingSetupForm, WritingScoreForm
+from .models import WritingTest, ListeningTest, ReadingTest
+from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm
 
 # Create your views here.
 
@@ -170,3 +170,63 @@ def writing_score(request, pk):
         form = WritingScoreForm()
 
     return render(request, "core/writing/score.html", {"form": form, "test": test})
+
+QUESTION_RANGE = range(1, 41)
+
+
+def _collect_answers(request):
+    return [request.POST.get(f"q{i}", "") for i in QUESTION_RANGE]
+
+
+@login_required
+def listening_practice(request):
+    if request.method == "POST":
+        test = ListeningTest.objects.create(
+            user=request.user,
+            answers=_collect_answers(request),
+        )
+        return redirect("core:listening_score", pk=test.pk)
+
+    return render(request, "core/listening_practice.html", {"question_range": QUESTION_RANGE})
+
+
+@login_required
+def listening_score(request, pk):
+    test = get_object_or_404(ListeningTest, pk=pk, user=request.user)
+    if request.method == "POST":
+        form = RawScoreForm(request.POST)
+        if form.is_valid():
+            test.score = form.cleaned_data["score"]
+            test.save()
+            return redirect("home")
+    else:
+        form = RawScoreForm()
+
+    return render(request, "core/score_entry.html", {"form": form, "label": "Listening"})
+
+
+@login_required
+def reading_practice(request):
+    if request.method == "POST":
+        test = ReadingTest.objects.create(
+            user=request.user,
+            answers=_collect_answers(request),
+        )
+        return redirect("core:reading_score", pk=test.pk)
+
+    return render(request, "core/reading_practice.html", {"question_range": QUESTION_RANGE})
+
+
+@login_required
+def reading_score(request, pk):
+    test = get_object_or_404(ReadingTest, pk=pk, user=request.user)
+    if request.method == "POST":
+        form = RawScoreForm(request.POST)
+        if form.is_valid():
+            test.score = form.cleaned_data["score"]
+            test.save()
+            return redirect("home")
+    else:
+        form = RawScoreForm()
+
+    return render(request, "core/score_entry.html", {"form": form, "label": "Reading"})

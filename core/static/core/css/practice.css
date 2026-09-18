@@ -1,0 +1,44 @@
+.answer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 24px 0;
+}
+
+.answer-cell {
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.qn {
+  font-size: 13px;
+  color: var(--ink-faint);
+  min-width: 20px;
+}
+
+.answer-cell input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-bottom: 1px solid var(--rule-strong);
+  background: transparent;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  padding: 4px 2px;
+}
+
+.answer-cell input:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.grid-submit { margin-top: 4px; }
+
+@media (max-width: 640px) {
+  .answer-grid { grid-template-columns: repeat(2, 1fr); }
+}
