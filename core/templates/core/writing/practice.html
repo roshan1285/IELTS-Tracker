@@ -5,75 +5,114 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Writing — {{ test.get_task_type_display }}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+  <!-- Only loading writing.css to prevent conflict with the dashboard theme -->
   <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
 </head>
-<body class="sheet-body">
+<body class="ielts-body">
 
-  <header class="sheet-bar">
-    <div class="sheet-bar-left">
-      {% if test.task_type == "full" %}
-        <div class="task-tabs" role="tablist">
-          <button type="button" class="task-tab is-active" data-tab="task1">Task 1</button>
-          <button type="button" class="task-tab" data-tab="task2">Task 2</button>
-        </div>
-      {% else %}
-        <span class="sheet-title">{{ test.get_task_type_display }}</span>
-      {% endif %}
+  <!-- TOP NAV BAR -->
+  <header class="ielts-header">
+    <div class="ielts-header-left">
+      <span class="ielts-logo-text">IELTS</span>
+      <span class="ielts-test-taker">Test taker ID</span>
     </div>
-    <div class="timer" id="timer" data-seconds="{{ duration_seconds }}">--:--</div>
+    <div class="ielts-header-right">
+      <div class="timer" id="timer" data-seconds="{{ duration_seconds }}">--:--</div>
+      <!-- Official Icons (Wifi, Bell, Menu) -->
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </div>
   </header>
 
-  <form method="post" id="writing-form" class="sheet-body-grid">
+  <form method="post" id="writing-form" class="ielts-form">
     {% csrf_token %}
 
-    <div class="panel task1-panel" data-panel="task1">
-      <div class="prompt-panel">
-        {% if test.task1_image %}
-          <img src="{{ test.task1_image.url }}" alt="Task 1 visual" class="prompt-image">
-        {% endif %}
-        {% if test.task1_prompt %}
-          <p class="prompt-text">{{ test.task1_prompt }}</p>
-        {% else %}
-          <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
-        {% endif %}
+    <div class="panels-container">
+      
+      <!-- TASK 1 PANEL -->
+      <div class="panel task1-panel" data-panel="task1">
+        <div class="instruction-box">
+          <div class="instruction-title">Part 1</div>
+          <div class="instruction-text">You should spend about 20 minutes on this task. Write at least 150 words.</div>
+        </div>
+        
+        <div class="split-layout">
+          <div class="prompt-panel">
+            <div class="prompt-scrollable">
+             
+              {% if test.task1_prompt %}
+                <p class="prompt-text"><strong>{{ test.task1_prompt }}</strong></p>
+              {% else %}
+                <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
+              {% endif %}
+
+               {% if test.task1_image %}
+                <img src="{{ test.task1_image.url }}" alt="Task 1 visual" class="prompt-image" height=530px>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="splitter"><div class="splitter-handle">↔</div></div>
+          
+          <div class="answer-panel">
+            <textarea name="task1_answer" class="answer-box" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{ test.task1_answer }}</textarea>
+          </div>
+        </div>
       </div>
-      <textarea
-        name="task1_answer"
-        class="answer-box"
-        placeholder="Write your Task 1 response here."
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-      >{{ test.task1_answer }}</textarea>
+
+      <!-- TASK 2 PANEL -->
+      <div class="panel task2-panel" data-panel="task2" {% if test.task_type == "full" %}hidden{% endif %}>
+        <div class="instruction-box">
+          <div class="instruction-title">Part 2</div>
+          <div class="instruction-text">You should spend about 40 minutes on this task. Write at least 250 words.</div>
+        </div>
+        
+        <div class="split-layout">
+          <div class="prompt-panel">
+            <div class="prompt-scrollable">
+              {% if test.task2_prompt %}
+                <p class="prompt-text"><strong>{{ test.task2_prompt }}</strong></p>
+              {% else %}
+                <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="splitter"><div class="splitter-handle">↔</div></div>
+          
+          <div class="answer-panel">
+            <textarea name="task2_answer" class="answer-box" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">{{ test.task2_answer }}</textarea>
+          </div>
+        </div>
+      </div>
+      
     </div>
 
-    <div class="panel task2-panel" data-panel="task2">
-      <div class="prompt-panel">
-        {% if test.task2_prompt %}
-          <p class="prompt-text">{{ test.task2_prompt }}</p>
-        {% else %}
-          <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
-        {% endif %}
-      </div>
-      <textarea
-        name="task2_answer"
-        class="answer-box"
-        placeholder="Write your Task 2 response here."
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-      >{{ test.task2_answer }}</textarea>
+    <!-- WORD COUNT (Aligned directly under textarea) -->
+    <div class="word-count-bar">
+      <span class="word-count-label">Words: <span class="word-count" id="word-count"></span></span>
     </div>
 
-    <div class="sheet-footer">
-      <span class="word-count" id="word-count"></span>
-      <button type="submit" class="primary-btn" id="finish-btn">Finish</button>
-    </div>
+    <!-- BOTTOM GRAY NAVIGATION BAR -->
+    <footer class="ielts-footer">
+      <div class="footer-left">
+        {% if test.task_type == "full" %}
+          <span class="sheet-title">Part 1 & 2</span>
+        {% else %}
+          <span class="sheet-title">{{ test.get_task_type_display }}</span>
+        {% endif %}
+      </div>
+      <div class="footer-right">
+        {% if test.task_type == "full" %}
+          <div class="task-tabs" role="tablist">
+            <button type="button" class="task-tab is-active" data-tab="task1">Part 1</button>
+            <button type="button" class="task-tab" data-tab="task2">Part 2</button>
+          </div>
+        {% endif %}
+        <button type="submit" class="finish-btn" id="finish-btn">Finish</button>
+      </div>
+    </footer>
   </form>
 
   <script>
