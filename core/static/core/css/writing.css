@@ -1,0 +1,249 @@
+/* Depends on the :root variables and .shell / .topbar / .primary rules
+   already defined in home.css — loaded before this file on every page. */
+
+.shell.narrow {
+  max-width: 640px;
+}
+
+/* ---------- Setup form ---------- */
+
+.setup-form {
+  padding-top: 32px;
+}
+
+.task-picker {
+  border: none;
+  padding: 0;
+  margin: 0 0 32px;
+}
+
+.task-picker legend {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 0 0 10px;
+}
+
+.task-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.task-option {
+  background: var(--surface);
+  padding: 16px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+.task-option:has(input:checked) {
+  border-left-color: var(--accent);
+  background: #fafaf6;
+}
+
+.task-option input { accent-color: var(--accent); }
+
+.task-option-name { font-size: 14.5px; font-weight: 500; }
+
+.task-fields {
+  border-top: 1px solid var(--rule);
+  padding: 22px 0;
+}
+
+.task-fields h2 {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+}
+
+.task-fields textarea,
+.task-fields input[type="file"] {
+  width: 100%;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+
+.task-fields textarea { resize: vertical; }
+
+.primary-btn {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--surface);
+  background: var(--ink);
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.primary-btn:hover { background: #2a332d; }
+
+/* ---------- Score page ---------- */
+
+.score-field {
+  margin-bottom: 18px;
+  max-width: 180px;
+}
+
+.score-field input {
+  width: 100%;
+  font-family: "Newsreader", Georgia, serif;
+  font-feature-settings: "tnum" 1;
+  font-size: 20px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+
+/* ---------- Timed sheet ---------- */
+
+html, body.sheet-body {
+  height: 100%;
+}
+
+body.sheet-body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.sheet-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.sheet-title {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.task-tabs { display: flex; gap: 2px; }
+
+.task-tab {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 7px 16px;
+  cursor: pointer;
+}
+
+.task-tab.is-active {
+  color: var(--surface);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.timer {
+  font-family: "Newsreader", Georgia, serif;
+  font-feature-settings: "tnum" 1;
+  font-size: 20px;
+  font-weight: 500;
+  min-width: 64px;
+  text-align: right;
+}
+
+.timer.is-low { color: var(--gap); }
+
+.sheet-body-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 0;
+}
+
+.panel[hidden] { display: none; }
+
+.prompt-panel {
+  border-right: 1px solid var(--rule);
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.prompt-text {
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.prompt-empty {
+  font-size: 13.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.prompt-image {
+  max-width: 100%;
+  border: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.answer-box {
+  border: none;
+  border-left: 1px solid transparent;
+  resize: none;
+  padding: 24px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.answer-box:focus { outline: none; }
+
+.sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-top: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.word-count {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  .panel { grid-template-columns: 1fr; }
+  .prompt-panel { border-right: none; border-bottom: 1px solid var(--rule); max-height: 30vh; }
+}

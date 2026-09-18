@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — set up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+</head>
+<body>
+  <div class="shell narrow">
+
+    <header class="topbar">
+      <h1>Writing</h1>
+      <a class="settings-link" href="{% url 'home' %}">Back home</a>
+    </header>
+
+    <form method="post" enctype="multipart/form-data" class="setup-form" novalidate>
+      {% csrf_token %}
+
+      <fieldset class="task-picker">
+        <legend>Which one are you doing?</legend>
+        <div class="task-options">
+          {% for radio in form.task_type %}
+            <label class="task-option">
+              {{ radio.tag }}
+              <span class="task-option-name">{{ radio.choice_label }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <div class="task-fields" data-for="task1">
+        <h2>Task 1</h2>
+        <label class="field-label" for="{{ form.task1_prompt.id_for_label }}">Prompt (optional)</label>
+        {{ form.task1_prompt }}
+        <label class="field-label" for="{{ form.task1_image.id_for_label }}">Visual / graph image (optional)</label>
+        {{ form.task1_image }}
+      </div>
+
+      <div class="task-fields" data-for="task2">
+        <h2>Task 2</h2>
+        <label class="field-label" for="{{ form.task2_prompt.id_for_label }}">Prompt (optional)</label>
+        {{ form.task2_prompt }}
+      </div>
+
+      <button type="submit" class="primary-btn">Start timer</button>
+    </form>
+
+  </div>
+
+  <script src="{% static 'core/js/writing/setup.js' %}"></script>
+</body>
+</html>

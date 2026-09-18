@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+</head>
+<body>
+  <div class="shell narrow">
+
+    <header class="topbar">
+      <h1>Log in</h1>
+    </header>
+
+    <form method="post" class="setup-form" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="form-errors">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      {% for field in form %}
+        <div class="form-row">
+          <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors|striptags }}</p>{% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="primary-btn">Log in</button>
+    </form>
+
+    <p class="auth-switch">New here? <a href="{% url 'signup' %}">Create an account</a></p>
+  </div>
+</body>
+</html>

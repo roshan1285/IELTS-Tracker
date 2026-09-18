@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — {{ test.get_task_type_display }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+</head>
+<body class="sheet-body">
+
+  <header class="sheet-bar">
+    <div class="sheet-bar-left">
+      {% if test.task_type == "full" %}
+        <div class="task-tabs" role="tablist">
+          <button type="button" class="task-tab is-active" data-tab="task1">Task 1</button>
+          <button type="button" class="task-tab" data-tab="task2">Task 2</button>
+        </div>
+      {% else %}
+        <span class="sheet-title">{{ test.get_task_type_display }}</span>
+      {% endif %}
+    </div>
+    <div class="timer" id="timer" data-seconds="{{ duration_seconds }}">--:--</div>
+  </header>
+
+  <form method="post" id="writing-form" class="sheet-body-grid">
+    {% csrf_token %}
+
+    <div class="panel task1-panel" data-panel="task1">
+      <div class="prompt-panel">
+        {% if test.task1_image %}
+          <img src="{{ test.task1_image.url }}" alt="Task 1 visual" class="prompt-image">
+        {% endif %}
+        {% if test.task1_prompt %}
+          <p class="prompt-text">{{ test.task1_prompt }}</p>
+        {% else %}
+          <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
+        {% endif %}
+      </div>
+      <textarea
+        name="task1_answer"
+        class="answer-box"
+        placeholder="Write your Task 1 response here."
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+      >{{ test.task1_answer }}</textarea>
+    </div>
+
+    <div class="panel task2-panel" data-panel="task2">
+      <div class="prompt-panel">
+        {% if test.task2_prompt %}
+          <p class="prompt-text">{{ test.task2_prompt }}</p>
+        {% else %}
+          <p class="prompt-empty">No prompt saved for this attempt — use your own paper copy if you have one.</p>
+        {% endif %}
+      </div>
+      <textarea
+        name="task2_answer"
+        class="answer-box"
+        placeholder="Write your Task 2 response here."
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+      >{{ test.task2_answer }}</textarea>
+    </div>
+
+    <div class="sheet-footer">
+      <span class="word-count" id="word-count"></span>
+      <button type="submit" class="primary-btn" id="finish-btn">Finish</button>
+    </div>
+  </form>
+
+  <script>
+    window.WRITING_TASK_TYPE = "{{ test.task_type }}";
+  </script>
+  <script src="{% static 'core/js/writing/practice.js' %}"></script>
+</body>
+</html>

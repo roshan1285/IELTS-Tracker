@@ -1,0 +1,45 @@
+from django import forms
+from .models import WritingTest
+
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+
+
+class SignUpForm(UserCreationForm):
+    full_name = forms.CharField(max_length=150, label="Full name")
+
+    class Meta:
+        model = CustomUser
+        fields = ("username", "full_name")
+
+
+class WritingSetupForm(forms.ModelForm):
+    class Meta:
+        model = WritingTest
+        fields = ["task_type", "task1_prompt", "task1_image", "task2_prompt"]
+        widgets = {
+            "task_type": forms.RadioSelect,
+            "task1_prompt": forms.Textarea(attrs={
+                "rows": 3,
+                "placeholder": "Paste the Task 1 prompt text (optional)",
+                "spellcheck": "false",
+            }),
+            "task2_prompt": forms.Textarea(attrs={
+                "rows": 3,
+                "placeholder": "Paste the Task 2 prompt text (optional)",
+                "spellcheck": "false",
+            }),
+        }
+
+
+class WritingScoreForm(forms.Form):
+    task1_score = forms.DecimalField(
+        max_digits=3, decimal_places=1, min_value=0, max_value=9,
+        required=False,
+        widget=forms.NumberInput(attrs={"step": "0.5", "placeholder": "e.g. 6.5"}),
+    )
+    task2_score = forms.DecimalField(
+        max_digits=3, decimal_places=1, min_value=0, max_value=9,
+        required=False,
+        widget=forms.NumberInput(attrs={"step": "0.5", "placeholder": "e.g. 6.5"}),
+    )

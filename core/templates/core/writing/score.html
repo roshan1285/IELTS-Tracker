@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — enter score</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+</head>
+<body>
+  <div class="shell narrow">
+
+    <header class="topbar">
+      <h1>Enter your score</h1>
+      <a class="settings-link" href="{% url 'home' %}">Back home</a>
+    </header>
+
+    <p class="practice-sub">
+      {{ test.get_task_type_display }} · saved {{ test.completed_at|date:"d M Y, H:i" }}
+    </p>
+
+    <form method="post" class="setup-form" novalidate>
+      {% csrf_token %}
+
+      {% if test.task_type == "task1" or test.task_type == "full" %}
+      <div class="score-field">
+        <label class="field-label" for="{{ form.task1_score.id_for_label }}">Task 1 band</label>
+        {{ form.task1_score }}
+      </div>
+      {% endif %}
+
+      {% if test.task_type == "task2" or test.task_type == "full" %}
+      <div class="score-field">
+        <label class="field-label" for="{{ form.task2_score.id_for_label }}">Task 2 band</label>
+        {{ form.task2_score }}
+      </div>
+      {% endif %}
+
+      <button type="submit" class="primary-btn">Save record</button>
+    </form>
+
+  </div>
+</body>
+</html>
