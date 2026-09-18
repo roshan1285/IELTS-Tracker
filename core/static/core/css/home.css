@@ -285,6 +285,31 @@ a { color: inherit; text-decoration: none; }
   border-left: 3px solid var(--accent-color);
 }
 
+/* --- Logout Button in Topbar --- */
+.logout-form {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .overview {

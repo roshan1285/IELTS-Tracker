@@ -36,8 +36,35 @@
   outline: none;
   border-bottom-color: var(--accent);
 }
+/* --- Professional Grid Button --- */
+.grid-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-main); /* Automatically dark in light mode, light in dark mode */
+  color: var(--bg-color);       /* Inverts the text color for perfect contrast */
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
 
-.grid-submit { margin-top: 4px; }
+.grid-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px); /* Creates a subtle 'lift' effect when hovered */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  text-decoration: none; /* Prevents the old text underline */
+}
+
+.grid-submit:active {
+  transform: translateY(0); /* Pushes the button back down when clicked */
+  box-shadow: none;
+}
 
 @media (max-width: 640px) {
   .answer-grid { grid-template-columns: repeat(2, 1fr); }

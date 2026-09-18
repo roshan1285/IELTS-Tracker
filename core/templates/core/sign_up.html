@@ -1,43 +1,93 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="{% if theme_preference == 1 %}light{% else %}dark{% endif %}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create your account</title>
+  <title>Create your account | IELTS Practice Log</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
   <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
 </head>
 <body>
   <div class="shell narrow">
 
-    <header class="topbar">
-      <h1>Create your account</h1>
-    </header>
+    <div class="auth-card">
+      <header class="auth-header">
+        <h1>Create your account</h1>
+        <p class="muted">Set up your profile and define your target bands.</p>
+      </header>
 
-    <form method="post" class="setup-form" novalidate>
-      {% csrf_token %}
+      <form method="post" class="setup-form" novalidate>
+        {% csrf_token %}
 
-      {% if form.non_field_errors %}
-        <div class="form-errors">{{ form.non_field_errors }}</div>
-      {% endif %}
+        {% if form.non_field_errors %}
+          <div class="form-errors">{{ form.non_field_errors }}</div>
+        {% endif %}
 
-      {% for field in form %}
-        <div class="form-row">
-          <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field }}
-          {% if field.help_text %}<p class="field-help">{{ field.help_text }}</p>{% endif %}
-          {% if field.errors %}<p class="field-error">{{ field.errors|striptags }}</p>{% endif %}
-        </div>
-      {% endfor %}
+        <!-- SECTION 1: Account Details -->
+        <fieldset class="form-section">
+          <legend>Account Details</legend>
+          
+          <!-- Safely loops through username, full_name, and the auto-generated password fields -->
+          {% for field in form %}
+            {% if field.name != 'exam_date' and field.name != 'TO' and field.name != 'TR' and field.name != 'TL' and field.name != 'TW' and field.name != 'TS' %}
+              <div class="form-row">
+                <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<p class="field-help">{{ field.help_text }}</p>{% endif %}
+                {% if field.errors %}<p class="field-error">{{ field.errors|striptags }}</p>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
 
-      <button type="submit" class="primary-btn">Create account</button>
-    </form>
+        <!-- SECTION 2: IELTS Goals -->
+        <fieldset class="form-section">
+          <legend>Your IELTS Goals</legend>
 
-    <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+          <div class="form-row">
+            <label class="field-label" for="{{ form.exam_date.id_for_label }}">{{ form.exam_date.label }}</label>
+            {{ form.exam_date }}
+            {% if form.exam_date.errors %}<p class="field-error">{{ form.exam_date.errors|striptags }}</p>{% endif %}
+          </div>
+
+          <!-- Grid matching your exact model field names -->
+          <div class="goals-grid">
+            <div class="form-row">
+              <label class="field-label" for="{{ form.TL.id_for_label }}">{{ form.TL.label }}</label>
+              {{ form.TL }}
+              {% if form.TL.errors %}<p class="field-error">{{ form.TL.errors|striptags }}</p>{% endif %}
+            </div>
+            <div class="form-row">
+              <label class="field-label" for="{{ form.TR.id_for_label }}">{{ form.TR.label }}</label>
+              {{ form.TR }}
+              {% if form.TR.errors %}<p class="field-error">{{ form.TR.errors|striptags }}</p>{% endif %}
+            </div>
+            <div class="form-row">
+              <label class="field-label" for="{{ form.TW.id_for_label }}">{{ form.TW.label }}</label>
+              {{ form.TW }}
+              {% if form.TW.errors %}<p class="field-error">{{ form.TW.errors|striptags }}</p>{% endif %}
+            </div>
+            <div class="form-row">
+              <label class="field-label" for="{{ form.TS.id_for_label }}">{{ form.TS.label }}</label>
+              {{ form.TS }}
+              {% if form.TS.errors %}<p class="field-error">{{ form.TS.errors|striptags }}</p>{% endif %}
+            </div>
+             <div class="form-row">
+              <label class="field-label" for="{{ form.TO.id_for_label }}">{{ form.TO.label }}</label>
+              {{ form.TO }}
+              {% if form.TO.errors %}<p class="field-error">{{ form.TO.errors|striptags }}</p>{% endif %}
+            </div>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="primary-btn">Create account</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+    </div>
   </div>
 </body>
 </html>

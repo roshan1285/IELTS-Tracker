@@ -8,9 +8,35 @@ from .models import CustomUser
 class SignUpForm(UserCreationForm):
     full_name = forms.CharField(max_length=150, label="Full name")
 
+    TL = forms.DecimalField(
+        label="Targeted Listening",
+        widget=forms.NumberInput(attrs={'step': '0.5', 'min': '0', 'max': '9'})
+    )
+    TR = forms.DecimalField(
+        label="Targeted Reading",
+        widget=forms.NumberInput(attrs={'step': '0.5', 'min': '0', 'max': '9'})
+    )
+    TW = forms.DecimalField(
+        label="Targeted Writing",
+        widget=forms.NumberInput(attrs={'step': '0.5', 'min': '0', 'max': '9'})
+    )
+    TS = forms.DecimalField(
+        label="Targeted Speaking",
+        widget=forms.NumberInput(attrs={'step': '0.5', 'min': '0', 'max': '9'})
+    )
+    TO = forms.DecimalField(
+        label="Targeted Overall",
+        widget=forms.NumberInput(attrs={'step': '0.5', 'min': '0', 'max': '9'})
+    )
+
+    exam_date = forms.DateField(
+        label="Exam Date (booked/targeted)",
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+
     class Meta:
         model = CustomUser
-        fields = ("username", "full_name")
+        fields = ("username", "full_name", "TL", "TR", "TW", "TS", "TO", "exam_date")
 
 
 class WritingSetupForm(forms.ModelForm):
