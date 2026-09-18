@@ -51,7 +51,7 @@ class WritingTest(models.Model):
         on_delete=models.CASCADE,
         related_name="writing_tests",
     )
-    task_type = models.CharField(max_length=10, choices=TASK_CHOICES)
+    task_type = models.CharField(max_length=10, choices=TASK_CHOICES, default="task1")
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="in_progress")
 
     task1_prompt = models.TextField(blank=True)

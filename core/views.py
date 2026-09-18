@@ -4,6 +4,13 @@ from datetime import date
 from django.contrib.auth import login
 from .forms import SignUpForm
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+
+from .models import WritingTest
+from .forms import WritingSetupForm, WritingScoreForm
+
 # Create your views here.
 
 MAX_BAND = 9.0
@@ -18,7 +25,7 @@ def signup(request):
     else:
         form = SignUpForm()
 
-    return render(request, "core/signup.html", {"form": form})
+    return render(request, "core/sign_up.html", {"form": form})
 
 def days_to_exam():
     today = date.today()
@@ -39,7 +46,7 @@ def _with_pct(entries):
         e["target_pct"] = round(e["target"] / MAX_BAND * 100, 1)
     return entries
 
-
+@login_required
 def home(request):
     # --- Static placeholder data. Replace with real queries once the
     # models exist, e.g. TestRecord.objects.filter(user=request.user)... ---
@@ -93,7 +100,7 @@ def home(request):
     ]
 
     context = {
-        "user_name": "Roshan",
+       
         "exam_date": "19 Oct 2026",
         "days_to_exam": days_to_exam(),
         "overall": overall,
@@ -104,17 +111,11 @@ def home(request):
     return render(request, "core/home.html", context)
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
-
-from .models import WritingTest
-from .forms import WritingSetupForm, WritingScoreForm
 
 DURATION_MINUTES = {"task1": 20, "task2": 40, "full": 60}
 
 
-# @login_required
+@login_required
 def writing_setup(request):
     """Pick Task 1 / Task 2 / Full, optionally paste prompt(s) and upload
     the Task 1 visual, then start the timed sheet."""
@@ -124,14 +125,14 @@ def writing_setup(request):
             test = form.save(commit=False)
             test.user = request.user
             test.save()
-            return redirect("writing_practice", pk=test.pk)
+            return redirect("core:writing_practice", pk=test.pk)
     else:
         form = WritingSetupForm()
 
     return render(request, "core/writing/setup.html", {"form": form})
 
 
-# @login_required
+@login_required
 def writing_practice(request, pk):
     """The timed split-screen sheet. Both task textareas stay in the DOM
     the whole time (just hidden/shown) so switching tabs on a Full test
@@ -144,7 +145,7 @@ def writing_practice(request, pk):
         test.status = "completed"
         test.completed_at = timezone.now()
         test.save()
-        return redirect("writing_score", pk=test.pk)
+        return redirect("core:writing_score", pk=test.pk)
 
     context = {
         "test": test,
@@ -153,7 +154,7 @@ def writing_practice(request, pk):
     return render(request, "core/writing/practice.html", context)
 
 
-# @login_required
+@login_required
 def writing_score(request, pk):
     """After finishing (or ending early), enter the assessed band(s)."""
     test = get_object_or_404(WritingTest, pk=pk, user=request.user)
