@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Practice Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+</head>
+<body>
+  <div class="shell">
+
+    <header class="topbar">
+      <h1>IELTS Practice Log</h1>
+      <div class="topbar-right">
+        <span>{{ user_name }}</span>
+        <span class="exam-countdown">
+          <span class="numeral">{{ days_to_exam }}</span> days to exam ({{ exam_date }})
+        </span>
+        <a class="settings-link" href="/settings/">Settings</a>
+      </div>
+    </header>
+
+    <section class="overview">
+      <div class="overview-head">
+        <div>
+          <p class="overall-label">Overall band</p>
+          <div class="overall-figure">
+            <span class="numeral current">{{ overall.current }}</span>
+            <span class="target">aiming for <span class="numeral">{{ overall.target }}</span></span>
+          </div>
+        </div>
+
+        <div class="overview-bar-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="width: {{ overall.current_pct }}%;"></div>
+            <div class="bar-target-mark" style="left: {{ overall.target_pct }}%;"></div>
+          </div>
+          <div class="bar-scale">
+            <span>0</span><span>9</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ledger">
+        {% for m in modules %}
+        <div class="ledger-row">
+          <span class="module-name">{{ m.name }}</span>
+          <span class="module-scores">
+            <span class="numeral current">{{ m.current }}</span> / <span class="numeral">{{ m.target }}</span>
+          </span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: {{ m.current_pct }}%;"></div>
+            <div class="bar-target-mark" style="left: {{ m.target_pct }}%;"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="practice">
+      <h2>Start practice</h2>
+      <p class="practice-sub">Log a test you've already taken, or use the sheet while you sit one.</p>
+
+      <div class="practice-grid">
+        {% for p in practice_options %}
+        <a class="practice-item{% if p.combined %} is-combined{% endif %}" href="/practice/{{ p.slug }}/">
+          <span class="practice-name">{{ p.name }}</span>
+          <span class="practice-desc">{{ p.desc }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
