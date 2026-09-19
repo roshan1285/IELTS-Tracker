@@ -1,9 +1,12 @@
 .answer-grid {
   display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(10, auto);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  background: transparent;
+  border: 100px solid var(--rule);
   margin: 24px 0;
 }
 
@@ -11,8 +14,11 @@
   background: var(--surface);
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 18px;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border-color: black;
+  border: 1px solid var(--text-main);
 }
 
 .qn {
@@ -67,5 +73,6 @@
 }
 
 @media (max-width: 640px) {
-  .answer-grid { grid-template-columns: repeat(2, 1fr); }
+  grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(20, auto);
 }
