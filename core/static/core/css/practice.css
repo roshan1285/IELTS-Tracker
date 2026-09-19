@@ -72,6 +72,37 @@
   box-shadow: none;
 }
 
+
+.ielts-body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Top Header --- */
+.ielts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ielts-header-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.ielts-logo-text {
+    color: #e31837; /* Official IELTS Red */
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: -1.5px;
+}
+
 @media (max-width: 640px) {
   grid-template-columns: repeat(2, 1fr); 
     grid-template-rows: repeat(20, auto);

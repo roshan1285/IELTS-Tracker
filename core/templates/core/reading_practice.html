@@ -13,12 +13,27 @@
 </head>
 <body>
 
-  <header class="sheet-bar">
-    <span class="sheet-title">Reading — <span id="passage-label">Passage 1</span></span>
-    <div class="timer" id="timer" data-seconds="3600">60:00</div>
-  </header>
+  <header class="ielts-header">
+    <div class="ielts-header-left">
+      <span class="ielts-logo-text">IELTS</span>
+      <span class="ielts-test-taker">Test taker ID</span>
+    </div>
+    <div class="ielts-header-right">
+      <span class="sheet-title"><span id="passage-label">Passage 1</span></span>
 
+      <div class="timer" id="timer" data-seconds="3600">60:00</div>
+      <!-- Official Icons (Wifi, Bell, Menu) -->
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </div>
+  </header>
+  
   <div class="shell">
+    <div class="topbar">
+      <h1>Reading</h1>
+      <a class="settings-link" href="{% url 'home' %}">Back home</a>
+    </div>
     <p class="practice-sub">
       Passage changes at 15 and 35 minutes. The sheet submits automatically when the timer hits zero.
     </p>
