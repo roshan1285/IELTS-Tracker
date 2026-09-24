@@ -14,6 +14,7 @@
   --accent-color: #D52B1E; /* Official IELTS Red */
   --accent-blue: #002D36;
   --hover-bg: #f9f9f9;
+  color-scheme: light; 
 }
 
 [data-theme="dark"] {
@@ -27,6 +28,7 @@
   --accent-color: #ff5c5c;
   --accent-blue: #4eb5cc;
   --hover-bg: #222222;
+  color-scheme: dark;
 }
 
 * { 

@@ -4,6 +4,7 @@
    --------------------------------------------------------- */
 
 .shell.narrow {
+  width: 100%;
   max-width: 640px;
   margin: 0 auto;
 }
@@ -111,6 +112,7 @@
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }
+
 
 .task-fields textarea:focus,
 .score-field input:focus {

@@ -1,17 +1,17 @@
+{% extends 'core/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Writing — enter score</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+
+{% block title %} Writing — enter score {% endblock%}
+
+{% block extra_head%}
   <link rel="stylesheet" href="{% static 'core/css/forms.css' %}">
-</head>
-<body>
-  <div class="shell narrow">
+{% endblock %}
+{% block body_classes %} class="ielts-body" {% endblock %}
+
+
+{% block tests_header%}{% endblock %}
+{% block shell%} class="shell narrow" {% endblock %}
+{% block content %}
 
     <header class="topbar">
       <h1>Enter your score</h1>
@@ -42,6 +42,4 @@
       <button type="submit" class="primary-btn">Save record</button>
     </form>
 
-  </div>
-</body>
-</html>
+{% endblock%}
