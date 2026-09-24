@@ -1,18 +1,15 @@
+{% extends 'core/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Writing — set up</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/forms.css' %}">
-</head>
-<body>
-  <div class="shell narrow">
 
+{% block title %} Writing — set up {% endblock%}
+{% block extra_head%}
+<link rel="stylesheet" href="{% static 'core/css/forms.css' %}">
+{% endblock %}
+{% block tests_name %}  {% endblock %}
+{% block shell%} class="shell narrow" {% endblock %}
+{% block content %}
+    
+    {% block tests_header %}{% endblock%}
     <header class="topbar">
       <h1>Writing</h1>
       <a class="settings-link" href="{% url 'home' %}">Back home</a>
@@ -50,8 +47,7 @@
       <button type="submit" class="primary-btn">Start timer</button>
     </form>
 
-  </div>
 
   <script src="{% static 'core/js/writing/setup.js' %}"></script>
-</body>
-</html>
+
+{% endblock%}

@@ -32,8 +32,8 @@
 .ielts-logo-text {
     /* Uses your theme's red in light mode, and a brighter red in dark mode for contrast */
     color: var(--accent-color); 
-    font-weight: 1000;
-    font-size: 35px;
+    font-weight: 800;
+    font-size: 36px;
     letter-spacing: -2.5px;
 }
 
