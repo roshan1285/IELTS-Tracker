@@ -1,29 +1,33 @@
+/* ---------------------------------------------------------
+   Practice Grid UI (Listening/Reading)
+   Design language: Matches home.css (Light/Dark mode ready)
+   --------------------------------------------------------- */
+
 .answer-grid {
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: repeat(10, auto);
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1px;
+  grid-template-columns: repeat(4, 1fr); /* Fixed: removed duplicate 5-column rule */
+  gap: 12px;
   background: transparent;
-  border: 100px solid var(--rule);
   margin: 24px 0;
+  /* Removed the broken 100px border */
 }
 
 .answer-cell {
-  background: var(--surface);
+  background: var(--surface-color); /* Fixed variable name */
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 10px 10px;
-  border-radius: 5px;
-  border-color: black;
-  border: 1px solid var(--text-main);
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color); /* Fixed variable name */
 }
 
 .qn {
   font-size: 13px;
-  color: var(--ink-faint);
+  color: var(--text-muted); /* Fixed variable name */
+  font-weight: 600;
   min-width: 20px;
 }
 
@@ -31,72 +35,53 @@
   flex: 1;
   min-width: 0;
   border: none;
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--border-color); /* Fixed variable name */
   background: transparent;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 14px;
+  color: var(--text-main); /* Added so text is visible in dark mode */
+  font-family: "Inter", sans-serif; /* Unified font with the rest of your app */
+  font-size: 15px;
   padding: 4px 2px;
 }
 
 .answer-cell input:focus {
   outline: none;
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--accent-color); /* Fixed variable name */
 }
+
 /* --- Professional Grid Button --- */
 .grid-submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--text-main); /* Automatically dark in light mode, light in dark mode */
-  color: var(--bg-color);       /* Inverts the text color for perfect contrast */
+  background: var(--text-main); 
+  color: var(--bg-color);       
   border: 1px solid transparent;
   border-radius: 6px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
-  padding: 10px 20px;
+  padding: 12px 24px;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 16px;
   transition: all 0.2s ease;
 }
 
 .grid-submit:hover {
   opacity: 0.9;
-  transform: translateY(-1px); /* Creates a subtle 'lift' effect when hovered */
+  transform: translateY(-1px); 
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  text-decoration: none; /* Prevents the old text underline */
 }
 
 .grid-submit:active {
-  transform: translateY(0); /* Pushes the button back down when clicked */
+  transform: translateY(0); 
   box-shadow: none;
 }
 
-
-.ielts-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* --- Top Header --- */
-.ielts-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 24px;
-    background: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.ielts-header-left {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-@media (max-width: 640px) {
-  grid-template-columns: repeat(2, 1fr); 
-    grid-template-rows: repeat(20, auto);
+/* --- Mobile Responsiveness --- */
+/* Fixed missing selector class inside the media query */
+@media (max-width: 768px) {
+  .answer-grid {
+      grid-template-columns: repeat(2, 1fr); 
+      grid-template-rows: repeat(20, auto);
+  }
 }

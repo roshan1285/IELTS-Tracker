@@ -1,20 +1,17 @@
+{% extends 'core/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listening</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@20..72,400;20..72,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/practice.css' %}">
-</head>
-<body>
-  <header class="ielts-header">
+
+{% block title %} Listening {% endblock%}
+
+{% block extra_head%}
+<link rel="stylesheet" href="{% static 'core/css/practice.css' %}">
+{% endblock %}
+{% block tests_name %}  {% endblock %}
+
+{% block header %}
+ <header class="ielts-header">
     <div class="ielts-header-left">
-      <span class="ielts-logo-text">IELTS</span>
+      <a href="{% url 'home' %}"><span class="ielts-logo-text">IELTS</span></a>
       <span class="ielts-test-taker">Test taker ID</span>
     </div>
     <div class="ielts-header-right">
@@ -24,8 +21,10 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </div>
   </header>
+{% endblock %}
+{% block content %}
 
-  <div class="shell">
+  {% block tests_header %}{% endblock%}
 
     <div class="topbar">
       <h1>Listening</h1>
@@ -42,6 +41,4 @@
       <button type="submit" class="primary-btn grid-submit">Submit answers</button>
     </form>
 
-  </div>
-</body>
-</html>
+{% endblock %}
