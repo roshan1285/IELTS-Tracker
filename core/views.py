@@ -76,6 +76,12 @@ def home(request):
             "desc": "60-minute timer across 3 passages. Log how many you got right.",
         },
         {
+            "name": "LR",
+            "slug": "lr",
+            "desc": "Combined Listening and Reading mock.",
+            "combined": True,
+        },
+        {
             "name": "Writing",
             "slug": "writing",
             "desc": "Task 1, Task 2, or a full 60-minute test.",
@@ -91,12 +97,7 @@ def home(request):
             "desc": "Combined Listening, Reading and Writing mock.",
             "combined": True,
         },
-        {
-            "name": "LR",
-            "slug": "lr",
-            "desc": "Combined Listening and Reading mock.",
-            "combined": True,
-        },
+       
     ]
     # print("Days to exam: ",days_to_exam(request.user.exam_date))
     context = {
@@ -170,6 +171,13 @@ def writing_score(request, pk):
         form = WritingScoreForm()
 
     return render(request, "core/writing/score.html", {"form": form, "test": test})
+
+@login_required
+def writing_tests(request):
+    last_tests_scores_objs = WritingTest.objects.filter(user=request.user).order_by('started_at').only('task_type', 'status', 'task1_score', 'task2_score', 'completed_at', 'started_at')[:5]
+    context={'tests':last_tests_scores_objs
+    }
+    return render(request, "core/writing/tests.html", context)
 
 QUESTION_RANGE = range(1, 41)
 

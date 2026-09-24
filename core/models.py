@@ -90,6 +90,11 @@ class WritingTest(models.Model):
     def __str__(self):
         return f"{self.user} — {self.get_task_type_display()} ({self.started_at:%d %b %Y})"
 
+    # def save(self, *args, **kwargs):
+    #     if self.task1_score or self.task2_score:
+    #         self.status="completed"
+    #     super().save(*args, **kwargs)
+
 class ListeningTest(models.Model):
 
     LISTENING_BAND_SCORE_CHOICES = [

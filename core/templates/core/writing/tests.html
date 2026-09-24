@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% block title %} Writing Tests {% endblock%}
+{% block content %}
+{% block tests_name %} Writing {% endblock %}
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th class="text-right">Ind. Band</th>
+              <th class="text-right">Ovr. Band</th>
+              <th>Completed at</th>
+              <th class="text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for test in tests %}
+            <tr>
+              <td class="date-cell">{{ test.started_at|date:"d M Y" }}</td>
+              <td class="module-cell">
+                <!-- Change these variables based on your actual model properties -->
+                <strong>{{test.task_type}}</strong>
+              </td>
+              <td>
+                <!-- Example of a status badge -->
+                {% if test.status == 'completed' %}
+                  <span class="status-badge completed">Completed</span>
+                {% else %}
+                  <span class="status-badge in-progress">In Progress</span>
+                {% endif %}
+              </td>
+              <td class="score-cell text-right">
+                {% if test.task1_score and test.task2_score %}
+                  <strong>{{ test.task1_score }}-{{ test.task2_score }}</strong>
+                {% elif test.task1_score %}
+                  <strong>{{ test.task1_score }}</strong>
+                {% elif test.task2_score %}
+                  <strong>{{ test.task2_score }}</strong>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </td>
+              <td class="score-cell text-right">
+                {% if test.overall_score %}
+                  <strong>{{ test.overall_score }}</strong>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </td>
+              <td class="date-cell">{{ test.completed_at|date:"d M Y" }}</td>
+              <td class="action-cell text-right">
+                <!-- Replace # with your actual view URL -->
+                <a href="{% url 'core:writing_practice' test.pk %}" class="action-link">Revisit</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="empty-state">
+                You haven't logged any tests yet. Head back to the dashboard to start practicing!
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+{% endblock%}

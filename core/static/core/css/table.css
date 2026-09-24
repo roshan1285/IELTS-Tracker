@@ -1,0 +1,133 @@
+/* ---------------------------------------------------------
+   Data Tables UI (History & Logs)
+   Design language: Matches home.css (Light/Dark mode ready)
+   --------------------------------------------------------- */
+
+.table-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Keeps the rounded corners intact */
+  margin-top: 24px;
+}
+
+/* Allows horizontal scrolling on small screens */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap; /* Prevents text from breaking onto multiple lines */
+}
+
+/* --- Table Headers --- */
+.history-table th {
+  background: var(--bg-color);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* --- Table Body Rows --- */
+.history-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14.5px;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.history-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.history-table tbody tr:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Removes the bottom border from the very last row */
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- Specific Cell Styling --- */
+.date-cell {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.module-cell strong {
+  font-weight: 600;
+}
+
+.score-cell strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* --- Status Badges --- */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.completed {
+  background: rgba(44, 110, 94, 0.1);
+  color: #2c6e5e; /* Green tint */
+}
+
+.status-badge.in-progress {
+  background: rgba(227, 24, 55, 0.1);
+  color: var(--accent-color); /* Red tint */
+}
+
+/* Dark mode overrides for badges to maintain contrast */
+[data-theme="dark"] .status-badge.completed {
+  background: rgba(44, 110, 94, 0.2);
+  color: #4cd4b5;
+}
+
+[data-theme="dark"] .status-badge.in-progress {
+  background: rgba(227, 24, 55, 0.2);
+  color: #ff7b7b;
+}
+
+/* --- Action Links --- */
+.action-link {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.action-link:hover {
+  color: var(--text-main);
+  text-decoration-color: var(--text-main);
+}
+
+/* --- Empty State --- */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  font-style: italic;
+}
