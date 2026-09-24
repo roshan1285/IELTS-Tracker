@@ -1,24 +1,18 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IELTS Practice Log</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
-</head>
-<body>
-  <div class="shell">
+{% extends 'core/base.html' %}
+{% block title %} IELTS Practice Log {% endblock%}
 
-    <header class="topbar">
-      <h1>IELTS Practice Log</h1>
-      <div class="topbar-right">
-        <span class="user-name">{{ user.full_name }}</span>
+   {% block header %}
+    <header class="ielts-header">
+       <div class="ielts-header-left">
+        <span class="ielts-logo-text">IELTS</span>
+        <span class="ielts-test-taker">Practice Log</span>
+      </div>
+      
+      <div class="ielts-header-right">
         <span class="exam-countdown">
           <strong>{{ days_to_exam }}</strong> days to exam <span class="muted">({{ user.exam_date|date:"d M" }})</span>
         </span>
+        <span class="user-name">{{ user.full_name }}</span>
         <a class="settings-link" href="/settings/">Settings</a>
         <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
           <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -30,6 +24,9 @@
         </form>
       </div>
     </header>
+    {% endblock %}
+{% block tests_header%} {% endblock%}
+{% block content %}
 
     <!-- Side-by-Side Overview -->
     <section class="overview">
@@ -70,7 +67,7 @@
 
       <div class="practice-grid">
         {% for p in practice_options %}
-        <a class="practice-item{% if p.combined %} is-combined{% endif %}" href="/{{p.slug}}/new/" >
+        <a class="practice-item{% if p.combined %} is-combined{% endif %}" {% if p.slug == 'writing'%} href="{% url 'core:writing_tests'%}" {% else %} href="/{{p.slug}}/new/" {% endif %}>
           <div class="practice-info">
             <span class="practice-name">{{ p.name }}</span>
             <span class="practice-desc">{{ p.desc }}</span>
@@ -90,16 +87,17 @@
     const sunIcon = document.querySelector('.sun-icon');
     const moonIcon = document.querySelector('.moon-icon');
 
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    htmlEl.setAttribute('data-theme', savedTheme);
-    updateIcons(savedTheme);
+    // 1. Read what the <head> script decided and set the correct icon
+    const currentTheme = htmlEl.getAttribute('data-theme');
+    updateIcons(currentTheme);
 
+    // 2. Handle button clicks
     toggleBtn.addEventListener('click', () => {
-      const currentTheme = htmlEl.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      const activeTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = activeTheme === 'light' ? 'dark' : 'light';
+      
       htmlEl.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+      localStorage.setItem('theme', newTheme); // Save to browser memory
       updateIcons(newTheme);
     });
 
@@ -112,11 +110,5 @@
         moonIcon.style.display = 'none';
       }
     }
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-
   </script>
-</body>
-</html>
+{% endblock%}

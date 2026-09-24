@@ -19,46 +19,6 @@ html, body {
     overflow: hidden;
 }
 
-/* --- Top Header --- */
-.ielts-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 24px;
-    background: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.ielts-header-left {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-.ielts-logo-text {
-    color: #e31837; /* Official IELTS Red */
-    font-weight: 900;
-    font-size: 28px;
-    letter-spacing: -1.5px;
-}
-
-.ielts-test-taker {
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.ielts-header-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    color: #333;
-}
-
-.timer {
-    font-weight: bold;
-    font-size: 16px;
-    margin-right: 16px;
-}
 
 /* --- Main Form Area --- */
 .ielts-form {

@@ -1,0 +1,64 @@
+/* ---------------------------------------------------------
+   Universal IELTS Header
+   Design language: Official UI, Theme-Aware (Light/Dark)
+   --------------------------------------------------------- */
+
+.ielts-body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-color);
+    color: var(--text-main);
+}
+
+/* --- Top Header --- */
+.ielts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    background: var(--surface-color);             /* Adapts to light/dark */
+    border-bottom: 1px solid var(--border-color); /* Adapts to light/dark */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.ielts-header-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.ielts-logo-text {
+    /* Uses your theme's red in light mode, and a brighter red in dark mode for contrast */
+    color: var(--accent-color); 
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: -1.5px;
+}
+
+.ielts-test-taker {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.ielts-header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--text-main);
+}
+
+/* Ensures the official IELTS icons (Wifi, Bell, Menu) respect the theme */
+.ielts-header-right svg {
+    stroke: var(--text-main);
+    transition: stroke 0.3s ease;
+}
+
+.timer {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 16px;
+    color: var(--text-main);
+}
