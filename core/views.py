@@ -27,10 +27,10 @@ def signup(request):
 
     return render(request, "core/sign_up.html", {"form": form})
 
-def days_to_exam():
+def days_to_exam(target_date):
     today = date.today()
 
-    target_date = date(2026, 10, 19)
+    # target_date = date(2026, 10, 19)
 
     time_difference = target_date - today
 
@@ -98,11 +98,11 @@ def home(request):
             "combined": True,
         },
     ]
-
+    # print("Days to exam: ",days_to_exam(request.user.exam_date))
     context = {
        
         "exam_date": "19 Oct 2026",
-        "days_to_exam": days_to_exam(),
+        "days_to_exam": days_to_exam(request.user.exam_date) - 1,
         "overall": overall,
         "modules": modules,
         "practice_options": practice_options,
