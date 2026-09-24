@@ -1,15 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Writing — {{ test.get_task_type_display }}</title>
-  <!-- Only loading writing.css to prevent conflict with the dashboard theme -->
-  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
-</head>
-<body class="ielts-body">
 
+ 
+
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %} Writing — {{ test.get_task_type_display }} {% endblock%}
+{% block white_theme%}{% endblock %}
+{% block extra_head%}
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+{% endblock %}
+{% block body_classes %} class="ielts-body" {% endblock %}
+
+  {% block header %}
   <!-- TOP NAV BAR -->
   <header class="ielts-header">
     <div class="ielts-header-left">
@@ -24,6 +26,10 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </div>
   </header>
+  {% endblock %}
+{% block tests_header%}{% endblock %}
+{% block shell%} {% endblock %}
+{% block content %}
 
   <form method="post" id="writing-form" class="ielts-form">
     {% csrf_token %}
@@ -119,5 +125,4 @@
     window.WRITING_TASK_TYPE = "{{ test.task_type }}";
   </script>
   <script src="{% static 'core/js/writing/practice.js' %}"></script>
-</body>
-</html>
+ {% endblock %}

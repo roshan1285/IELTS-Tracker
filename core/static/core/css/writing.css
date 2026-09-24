@@ -19,6 +19,15 @@ html, body {
     overflow: hidden;
 }
 
+/* Fix the broken flex chain caused by base.html wrappers */
+.ielts-body > div, 
+.ielts-body main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%; /* Ensures it doesn't shrink horizontally */
+}
 
 /* --- Main Form Area --- */
 .ielts-form {

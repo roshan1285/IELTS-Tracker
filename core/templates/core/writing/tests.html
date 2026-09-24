@@ -1,5 +1,10 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
 {% block title %} Writing Tests {% endblock%}
+{% block extra_head%}
+<link rel="stylesheet" href="{% static 'core/css/table.css' %}">
+{% endblock %}
 {% block content %}
 {% block tests_name %} Writing {% endblock %}
 
