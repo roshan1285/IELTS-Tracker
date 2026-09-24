@@ -9,7 +9,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   overflow: hidden; /* Keeps the rounded corners intact */
-  margin-top: 24px;
+  margin-top: 10px;
 }
 
 /* Allows horizontal scrolling on small screens */

@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.conf import settings
+from datetime import date
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -45,7 +46,16 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.full_name or self.username
-    
+
+    @property
+    def days_to_exam(self):
+        # target_date = date(2026, 10, 19)
+        if self.exam_date:
+            today = date.today()
+            remaining_days = self.exam_date - today
+            return max(remaining_days.days, 0) - 1
+        return 0
+
 class WritingTest(models.Model):
     TASK_CHOICES = [
         ("task1", "Task 1"),

@@ -103,7 +103,6 @@ def home(request):
     context = {
        
         "exam_date": "19 Oct 2026",
-        "days_to_exam": days_to_exam(request.user.exam_date) - 1,
         "overall": overall,
         "modules": modules,
         "practice_options": practice_options,

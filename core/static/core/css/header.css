@@ -62,3 +62,69 @@
     margin-right: 16px;
     color: var(--text-main);
 }
+
+/* --- Topbar Action Buttons --- */
+.nav-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.nav-back-link:hover {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--text-main);
+    color: var(--bg-color);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+/* --- Secondary Page Headers (Below Universal Header) --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 32px 0 16px 0;
+}
+
+.page-header-main h1 {
+    font-size: 24px;
+    margin: 12px 0 4px 0;
+    letter-spacing: -0.02em;
+}
+
+.page-header-main .muted {
+    margin: 0;
+    font-size: 15px;
+}
+
+/* On mobile, stack the button under the text */
+@media (max-width: 640px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
