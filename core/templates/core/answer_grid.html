@@ -1,8 +1,23 @@
-<div class="answer-grid">
+<!-- Action Bar -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+  <button type="button" id="remark-toggle" class="nav-back-link" style="margin: 0; cursor: pointer; border: none; background: transparent;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    Enable Remark Mode
+  </button>
+  <div id="live-score-display" style="display: none; font-weight: 600; font-size: 15px; color: var(--accent-color);">
+    Score: <span id="score-tally">0</span> / 40
+  </div>
+</div>
+
+<!-- The Grid -->
+<div class="answer-grid" id="practice-grid">
   {% for i in question_range %}
     <div class="answer-cell">
+      <!-- Hidden checkbox for grading -->
+      <input type="checkbox" class="remark-checkbox" value="1" style="display: none; width: 16px; height: 16px; accent-color: var(--accent-color); cursor: pointer;">
+      
       <span class="qn numeral">{{ i }}. </span>
-      <input type="text" name="q{{ i }}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+      <input type="text" class="answer-input" name="q{{ i }}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
     </div>
   {% endfor %}
 </div>

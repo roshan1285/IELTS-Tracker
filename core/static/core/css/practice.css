@@ -31,7 +31,7 @@
   min-width: 20px;
 }
 
-.answer-cell input {
+.answer-cell input[type="text"] {
   flex: 1;
   min-width: 0;
   border: none;
@@ -43,9 +43,14 @@
   padding: 4px 2px;
 }
 
-.answer-cell input:focus {
+.answer-cell input[type="text"]:focus {
   outline: none;
   border-bottom-color: var(--accent-color); /* Fixed variable name */
+}
+
+.remark-checkbox {
+  flex: 0 0 auto; /* Prevents it from stretching */
+  margin: 0;
 }
 
 /* --- Professional Grid Button --- */

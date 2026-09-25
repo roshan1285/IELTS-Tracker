@@ -192,6 +192,12 @@ def listening_practice(request):
             user=request.user,
             answers=_collect_answers(request),
         )
+        # CHECK FOR REMARK MODE SCORE
+        calculated_score = request.POST.get('calculated_score')
+        if calculated_score and calculated_score.isdigit():
+            test.score = int(calculated_score)
+            test.save() # Your model automatically applies the band score here
+            return redirect("home") # Skip manual entry!
         return redirect("core:listening_score", pk=test.pk)
 
     return render(request, "core/listening_practice.html", {"question_range": QUESTION_RANGE})
@@ -219,6 +225,12 @@ def reading_practice(request):
             user=request.user,
             answers=_collect_answers(request),
         )
+        # CHECK FOR REMARK MODE SCORE
+        calculated_score = request.POST.get('calculated_score')
+        if calculated_score and calculated_score.isdigit():
+            test.score = int(calculated_score)
+            test.save() # Your model automatically applies the band score here
+            return redirect("home") # Skip manual entry!
         return redirect("core:reading_score", pk=test.pk)
 
     return render(request, "core/reading_practice.html", {"question_range": QUESTION_RANGE})
