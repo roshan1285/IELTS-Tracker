@@ -150,19 +150,19 @@ class ListeningTest(models.Model):
             return None
 
         if self.score >= 39: return 9.0
-        if self.score >= 38: return 8.5
-        if self.score >= 36: return 8.0
-        if self.score >= 34: return 7.5
-        if self.score >= 31: return 7.0
-        if self.score >= 29: return 6.5
-        if self.score >= 25: return 6.0
-        if self.score >= 22: return 5.5
-        if self.score >= 17: return 5.0
-        if self.score >= 15: return 4.5
-        if self.score >= 12: return 4.0
-        if self.score >= 10: return 3.5
-        if self.score >= 7: return 3.0
-        if self.score >= 5: return 2.5
+        if self.score >= 37: return 8.5
+        if self.score >= 35: return 8.0
+        if self.score >= 33: return 7.5
+        if self.score >= 30: return 7.0
+        if self.score >= 27: return 6.5
+        if self.score >= 23: return 6.0
+        if self.score >= 20: return 5.5
+        if self.score >= 16: return 5.0
+        if self.score >= 13: return 4.5
+        if self.score >= 11: return 4.0
+        if self.score >= 8: return 3.5
+        if self.score >= 6: return 3.0
+        if self.score >= 4: return 2.5
         if self.score == 3: return 2.0
         if self.score == 2: return 1.5
         if self.score == 1: return 1.0
@@ -221,19 +221,19 @@ class ReadingTest(models.Model):
             return None
 
         if self.score >= 39: return 9.0
-        if self.score >= 38: return 8.5
-        if self.score >= 36: return 8.0
-        if self.score >= 34: return 7.5
-        if self.score >= 32: return 7.0
-        if self.score >= 29: return 6.5
-        if self.score >= 26: return 6.0
-        if self.score >= 22: return 5.5
-        if self.score >= 18: return 5.0
-        if self.score >= 14: return 4.5
-        if self.score >= 12: return 4.0
-        if self.score >= 9: return 3.5
-        if self.score >= 7: return 3.0
-        if self.score >= 5: return 2.5
+        if self.score >= 37: return 8.5
+        if self.score >= 35: return 8.0
+        if self.score >= 33: return 7.5
+        if self.score >= 30: return 7.0
+        if self.score >= 27: return 6.5
+        if self.score >= 23: return 6.0
+        if self.score >= 19: return 5.5
+        if self.score >= 15: return 5.0
+        if self.score >= 13: return 4.5
+        if self.score >= 10: return 4.0
+        if self.score >= 8: return 3.5
+        if self.score >= 6: return 3.0
+        if self.score >= 4: return 2.5
         if self.score == 3: return 2.0
         if self.score == 2: return 1.5
         if self.score == 1: return 1.0

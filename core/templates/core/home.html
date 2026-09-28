@@ -43,7 +43,7 @@
 
       <div class="practice-grid">
         {% for p in practice_options %}
-        <a class="practice-item{% if p.combined %} is-combined{% endif %}" {% if p.slug == 'writing'%} href="{% url 'core:writing_tests'%}" {% else %} href="/{{p.slug}}/new/" {% endif %}>
+        <a class="practice-item{% if p.combined %} is-combined{% endif %}" href="/{{p.slug}}/tests/">
           <div class="practice-info">
             <span class="practice-name">{{ p.name }}</span>
             <span class="practice-desc">{{ p.desc }}</span>

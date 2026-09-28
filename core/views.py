@@ -217,6 +217,30 @@ def listening_score(request, pk):
 
     return render(request, "core/score_entry.html", {"form": form, "label": "Listening"})
 
+@login_required
+def listening_tests(request):
+    tests = ListeningTest.objects.filter(user=request.user)
+
+    if tests.count != 0:
+        last_tests = tests[:5]
+        last_tests_count = last_tests.count()
+        average_scores = [ i.score for i in last_tests ]
+        average_bands = [ i.band for i in last_tests ]
+
+        average_score= round(sum(average_scores)/last_tests_count)
+        average_band = round(sum(average_bands)/last_tests_count)
+
+    else:
+            average_band=0
+            average_score=0
+
+    context={
+        "test_type": "Listening",
+        "tests": tests,
+        "average_score": average_score,
+        "average_band": float(average_band),
+    }
+    return render(request, "core/listening_reading_tests.html", context)
 
 @login_required
 def reading_practice(request):
@@ -249,3 +273,28 @@ def reading_score(request, pk):
         form = RawScoreForm()
 
     return render(request, "core/score_entry.html", {"form": form, "label": "Reading"})
+
+
+@login_required
+def reading_tests(request):
+    tests = ReadingTest.objects.filter(user=request.user)
+    print(tests.count() )
+    if tests.count() > 0:
+        last_tests = tests[:5]
+        last_tests_count = last_tests.count()
+        average_scores = [ i.score for i in last_tests ]
+        average_bands = [ i.band for i in last_tests ]
+        print(average_scores)
+        average_score= round(sum(average_scores)/last_tests_count)
+        average_band = round(sum(average_bands)/last_tests_count)
+    else:
+        average_band=0
+        average_score=0
+
+    context={
+        "test_type": "Reading",
+        "tests": tests,
+        "average_score": average_score,
+        "average_band": float(average_band),
+    }
+    return render(request, "core/listening_reading_tests.html", context)
