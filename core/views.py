@@ -274,6 +274,12 @@ def reading_score(request, pk):
 
     return render(request, "core/score_entry.html", {"form": form, "label": "Reading"})
 
+@login_required
+def reading_revisit(request, pk):
+    test = get_object_or_404(ReadingTest, pk=pk, user=request.user)
+
+    form  = RawScoreForm(instance=test)
+    return render(request, "core/reading_practice.html", {"form": form, "lebel": "Reading"})
 
 @login_required
 def reading_tests(request):

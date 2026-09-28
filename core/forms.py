@@ -75,3 +75,9 @@ class RawScoreForm(forms.Form):
         min_value=0, max_value=40,
         widget=forms.NumberInput(attrs={"placeholder": "out of 40"}),
     )
+
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance', None)
+       
+        super().__init__(*args, **kwargs)
+       

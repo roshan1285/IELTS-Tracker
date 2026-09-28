@@ -9,3 +9,9 @@ venv/
 /__pycache__/
 
 /media
+
+/dist
+IELTS Tracker.spec
+launcher.py
+
+/build

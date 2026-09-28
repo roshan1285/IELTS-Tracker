@@ -21,5 +21,6 @@ urlpatterns=[
     path("reading/tests/", views.reading_tests, name="reading_tests"),
     path("reading/new/", views.reading_practice, name="reading_practice"),
     path("reading/<int:pk>/score/", views.reading_score, name="reading_score"),
+    path("reading/<int:pk>/revisit/", views.reading_revisit, name="reading_revisit"),
 
 ]
