@@ -78,11 +78,11 @@ class WritingTest(models.Model):
     task1_prompt = models.TextField(blank=True)
     task1_image = models.ImageField(upload_to="writing_prompts/", blank=True, null=True)
     task1_answer = models.TextField(blank=True)
-    task1_score = models.DecimalField(max_digits=3, decimal_places=1, default=5.5, choices=BAND_SCORE_CHOICES,null=True, blank=True)
+    task1_score = models.DecimalField(max_digits=3, decimal_places=1, choices=BAND_SCORE_CHOICES,null=True, blank=True)
 
     task2_prompt = models.TextField(blank=True)
     task2_answer = models.TextField(blank=True)
-    task2_score = models.DecimalField(max_digits=3, decimal_places=1, default=5.5, choices=BAND_SCORE_CHOICES, null=True, blank=True)
+    task2_score = models.DecimalField(max_digits=3, decimal_places=1, choices=BAND_SCORE_CHOICES, null=True, blank=True)
 
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)

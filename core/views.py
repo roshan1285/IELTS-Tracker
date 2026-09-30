@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from datetime import date
+import math
 
 from django.contrib.auth import login
 from .forms import SignUpForm
@@ -7,9 +8,11 @@ from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from .utils import calculate_listening_band_score, calculate_reading_band_score
 
 from .models import WritingTest, ListeningTest, ReadingTest
 from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm
+
 
 # Create your views here.
 
@@ -46,22 +49,65 @@ def _with_pct(entries):
         e["target_pct"] = round(e["target"] / MAX_BAND * 100, 1)
     return entries
 
+def round_to_half(x):
+    return math.floor(x * 2 + 0.5) / 2
+
+
 @login_required
 def home(request):
     # --- Static placeholder data. Replace with real queries once the
     # models exist, e.g. TestRecord.objects.filter(user=request.user)... ---
 
     theme_preference = 0
+    last_no_tests=5
+    last_listening_tests=ListeningTest.objects.filter(user=request.user).order_by("taken_at").only("score")[:last_no_tests]
+    last_reading_tests=ReadingTest.objects.filter(user=request.user).order_by("taken_at").only("score")[:last_no_tests]
+    last_writing_tests=WritingTest.objects.filter(user=request.user, status="completed").order_by("completed_at").only("task1_score", "task2_score")[:last_no_tests]
+
+    listening_scores = [0.0 if t.score is None else t.score for t in last_listening_tests]
+    reading_scores = [0.0 if t.score is None else t.score for t in last_reading_tests]
+    writing_scores = [0.0 if t.overall_score is None else float(str(t.overall_score)) for t in last_writing_tests]
+
+    no_listening_tests=len(listening_scores)
+    no_reading_tests=len(reading_scores)
+    no_writing_tests=len(writing_scores)
+
+    listening_score= round_to_half(sum(listening_scores)/no_listening_tests)
+    reading_score= round_to_half(sum(reading_scores)/no_reading_tests)
+
+    listening_band=calculate_listening_band_score(listening_score)
+    reading_band=calculate_reading_band_score(reading_score)
+    writing_band= round_to_half(sum(writing_scores)/no_writing_tests)
+    speaking_band=5.5
+
+    targeted_listening=float(str(request.user.TL))
+    targeted_reading=float(str(request.user.TR))
+    targeted_writing=float(str(request.user.TW))
+    targeted_speaking=float(str(request.user.TS))
+
+    overall_band = round_to_half(
+        (listening_band + reading_band + writing_band + speaking_band) / 4
+    )
+    targeted_overall_band=float(str(request.user.TO))
+
+    print(targeted_listening)
+    print(listening_band)
+
+    print(targeted_reading)
+    print(reading_band)
+
+    print(targeted_writing)
+    print(writing_band)
 
     modules = _with_pct([
-        {"name": "Listening", "slug": "listening", "current": 8.0, "target": 8.0},
-        {"name": "Reading", "slug": "reading", "current": 7.0, "target": 7.5},
-        {"name": "Writing", "slug": "writing", "current": 6.0, "target": 7.0},
-        {"name": "Speaking", "slug": "speaking", "current": 5.5, "target": 7.5},
+        {"name": "Listening", "slug": "listening", "current": listening_band, "target": targeted_listening},
+        {"name": "Reading", "slug": "reading", "current": reading_band, "target": targeted_reading},
+        {"name": "Writing", "slug": "writing", "current": writing_band, "target": targeted_writing},
+        {"name": "Speaking", "slug": "speaking", "current": speaking_band, "target": targeted_speaking},
     ])
 
     overall = _with_pct([
-        {"name": "Overall", "slug": "overall", "current": 6.5, "target": 7.5}
+        {"name": "Overall", "slug": "overall", "current": overall_band, "target": targeted_overall_band}
     ])[0]
 
     practice_options = [
@@ -173,8 +219,8 @@ def writing_score(request, pk):
 
 @login_required
 def writing_tests(request):
-    last_tests_scores_objs = WritingTest.objects.filter(user=request.user).order_by('started_at').only('task_type', 'status', 'task1_score', 'task2_score', 'completed_at', 'started_at')[:5]
-    context={'tests':last_tests_scores_objs
+    tests_objs = WritingTest.objects.filter(user=request.user).order_by('started_at').only('task_type', 'status', 'task1_score', 'task2_score', 'completed_at', 'started_at')
+    context={'tests':tests_objs
     }
     return render(request, "core/writing/tests.html", context)
 
