@@ -11,7 +11,7 @@ from django.utils import timezone
 from .utils import calculate_listening_band_score, calculate_reading_band_score
 
 from .models import WritingTest, ListeningTest, ReadingTest
-from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm
+from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm, ProfileSettingsForm
 
 
 # Create your views here.
@@ -350,3 +350,15 @@ def reading_tests(request):
         "average_band": float(average_band),
     }
     return render(request, "core/listening_reading_tests.html", context)
+
+@login_required
+def settings_view(request):
+    if request.method == "POST":
+        form=ProfileSettingsForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+    else:
+        form = ProfileSettingsForm(instance=request.user)
+
+    return render(request,"core/settings.html", {"form":form})

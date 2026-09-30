@@ -80,4 +80,26 @@ class RawScoreForm(forms.Form):
         instance = kwargs.get('instance', None)
        
         super().__init__(*args, **kwargs)
-       
+
+
+class ProfileSettingsForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["full_name", "exam_date", "TL", "TR", "TW", "TS", "TO", "preferred_theme"]
+        widgets = {
+            "exam_date": forms.DateInput(attrs={"type": "date"}),
+            "TL": forms.NumberInput(attrs={"step": "0.5", "min": "0", "max": "9"}),
+            "TR": forms.NumberInput(attrs={"step": "0.5", "min": "0", "max": "9"}),
+            "TW": forms.NumberInput(attrs={"step": "0.5", "min": "0", "max": "9"}),
+            "TS": forms.NumberInput(attrs={"step": "0.5", "min": "0", "max": "9"}),
+            "TO": forms.NumberInput(attrs={"step": "0.5", "min": "0", "max": "9"}),
+            "preferred_theme": forms.RadioSelect,
+        }
+        labels = {
+            "TL": "Target Listening",
+            "TR": "Target Reading",
+            "TW": "Target Writing",
+            "TS": "Target Speaking",
+            "TO": "Target Overall",
+        }
+ 

@@ -162,3 +162,17 @@
   color: var(--text-main);
   border-color: var(--text-main);
 }
+
+/* --- Settings Page: Target Scores Grid --- */
+.form-row-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 16px;
+}
+
+/* On mobile, stack them back to a single column */
+@media (max-width: 480px) {
+  .form-row-grid {
+    grid-template-columns: 1fr;
+  }
+}

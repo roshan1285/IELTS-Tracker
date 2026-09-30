@@ -6,7 +6,8 @@ app_name='core'
 
 urlpatterns=[
     # path('home', views.home, name="home"),
-    
+    path("settings/", views.settings_view, name="settings"),
+
     path("writing/tests/", views.writing_tests, name="writing_tests"),
     path("writing/new/", views.writing_setup, name="writing_setup"),
     path("writing/<int:pk>/", views.writing_practice, name="writing_practice"),

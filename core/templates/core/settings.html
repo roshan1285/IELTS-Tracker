@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %} Settings {% endblock %}
+
+<!-- Forces the dark background canvas -->
+{% block body_classes %}class="ielts-body"{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/forms.css' %}">
+{% endblock %}
+
+<!-- Keeps the form cleanly centered -->
+{% block shell %} class="shell narrow" {% endblock %}
+{% block tests_header %} {% endblock %}
+{% block content %}
+    <!-- Standardized Secondary Header -->
+    <div class="page-header" style="padding-bottom: 24px;">
+        <div class="page-header-main">
+            <a class="nav-back-link" href="{% url 'home' %}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Dashboard
+            </a>
+            <h1 style="margin-top: 12px;">Settings</h1>
+        </div>
+    </div>
+
+    <form method="post" class="setup-form" novalidate>
+      {% csrf_token %}
+
+      <div class="form-row">
+        <label class="field-label" for="{{ form.full_name.id_for_label }}">Full name</label>
+        {{ form.full_name }}
+      </div>
+
+      <div class="form-row">
+        <label class="field-label" for="{{ form.exam_date.id_for_label }}">Exam date</label>
+        {{ form.exam_date }}
+      </div>
+
+      <div class="form-section">
+        <legend>Target Scores</legend>
+      </div>
+
+      <!-- 2x2 Grid for the 4 sub-scores -->
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label class="field-label" for="{{ form.TL.id_for_label }}">Listening</label>
+          {{ form.TL }}
+        </div>
+        <div class="form-row">
+          <label class="field-label" for="{{ form.TR.id_for_label }}">Reading</label>
+          {{ form.TR }}
+        </div>
+        <div class="form-row">
+          <label class="field-label" for="{{ form.TW.id_for_label }}">Writing</label>
+          {{ form.TW }}
+        </div>
+        <div class="form-row">
+          <label class="field-label" for="{{ form.TS.id_for_label }}">Speaking</label>
+          {{ form.TS }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="field-label" for="{{ form.TO.id_for_label }}">Target Overall</label>
+        {{ form.TO }}
+      </div>
+
+      <!-- Reuses the clean radio-card UI we built for Task selection -->
+      <fieldset class="task-picker" style="margin-top: 16px;">
+        <legend>Theme Preference</legend>
+        <div class="task-options">
+          {% for radio in form.preferred_theme %}
+            <label class="task-option">
+              {{ radio.tag }}
+              <span class="task-option-name">{{ radio.choice_label }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <button type="submit" class="primary-btn" style="margin-top: 24px;">Save settings</button>
+    </form>
+{% endblock %}
