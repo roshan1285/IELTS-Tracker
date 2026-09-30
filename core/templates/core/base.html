@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="{{ request.user.get_preferred_theme_display|default:'Light'|lower }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,7 @@
     <link rel="stylesheet" href="{% static 'core/css/header.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'core/IELTS_Tracker.ico' %}">
     {% block white_theme%}
-    <script>
-        let savedTheme = localStorage.getItem('theme');
-        if (!savedTheme) {
-            savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    </script> 
+    
     {% endblock %}
     {% block extra_head%}
     {% endblock %}
@@ -42,7 +36,7 @@
         {% endif %}
         <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
           <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
         <form method="post" action="{% url 'logout' %}" class="logout-form">
           {% csrf_token %}
@@ -81,35 +75,32 @@
     </main>
 </div>
 <!-- Theme Toggle Logic -->
-  <script>
-    const toggleBtn = document.getElementById('theme-toggle');
-    const htmlEl = document.documentElement;
-    const sunIcon = document.querySelector('.sun-icon');
-    const moonIcon = document.querySelector('.moon-icon');
+<script>
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      // 1. Calculate the new theme
+      const htmlTag = document.documentElement;
+      const currentTheme = htmlTag.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      // 2. Format it to match your Django model integer choices exactly
+      const dbTheme = newTheme === 'dark' ? 1 : 0;
 
-    // 1. Read what the <head> script decided and set the correct icon
-    const currentTheme = htmlEl.getAttribute('data-theme');
-    updateIcons(currentTheme);
+      // 3. Update the UI instantly for a snappy feel
+      htmlTag.setAttribute('data-theme', newTheme);
 
-    // 2. Handle button clicks
-    toggleBtn.addEventListener('click', () => {
-      const activeTheme = htmlEl.getAttribute('data-theme');
-      const newTheme = activeTheme === 'light' ? 'dark' : 'light';
-      
-      htmlEl.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme); // Save to browser memory
-      updateIcons(newTheme);
+      // 4. Sync to the database silently
+      fetch('{% url "core:toggle_theme" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}' 
+        },
+        body: JSON.stringify({ theme: dbTheme }) // Now safely sends 0 or 1
+      });
     });
-
-    function updateIcons(theme) {
-      if (theme === 'dark') {
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
-      } else {
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
-      }
-    }
-  </script>
+  }
+</script>
 </body>
 </html>

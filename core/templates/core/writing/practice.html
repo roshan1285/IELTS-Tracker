@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block title %} Writing — {{ test.get_task_type_display }} {% endblock%}
-{% block white_theme%}{% endblock %}
+{% block white_theme%}
+<script>
+  savedTheme =  'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+</script>
+{% endblock %}
 {% block extra_head%}
   <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
 {% endblock %}

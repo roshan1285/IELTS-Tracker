@@ -311,6 +311,21 @@ a { color: inherit; text-decoration: none; }
   text-underline-offset: 4px;
 }
 
+/* --- Theme Button Icon Swap --- */
+
+/* 1. Default state (Light Mode): Hide the moon */
+.sun-icon {
+  display: none;
+}
+
+/* 2. Dark Mode state: Hide the sun, reveal the moon */
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+[data-theme="dark"] .sun-icon {
+  display: block; 
+}
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .overview {

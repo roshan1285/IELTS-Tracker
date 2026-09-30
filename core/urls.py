@@ -27,4 +27,5 @@ urlpatterns=[
     path("speaking/tests/", views.speaking_tests, name="speaking_tests"),
     path("speaking/new/", views.speaking_practice, name="speaking_practice"),
 
+    path('theme/toggle/', views.toggle_theme, name='toggle_theme'),
 ]

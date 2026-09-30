@@ -13,6 +13,9 @@ from .utils import calculate_listening_band_score, calculate_reading_band_score
 from .models import ListeningTest, ReadingTest, WritingTest, SpeakingTest
 from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm, SpeakingScoreForm, ProfileSettingsForm
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -400,3 +403,17 @@ def settings_view(request):
         form = ProfileSettingsForm(instance=request.user)
 
     return render(request,"core/settings.html", {"form":form})
+
+@login_required
+@require_POST
+def toggle_theme(request):
+    data = json.loads(request.body)
+    new_theme = data.get("theme")
+    
+    # Check against your integer choices: 0 (Light) or 1 (Dark)
+    if new_theme in [0, 1]:
+        request.user.preferred_theme = new_theme
+        request.user.save(update_fields=["preferred_theme"])
+        return JsonResponse({"status": "success", "theme": new_theme})
+        
+    return JsonResponse({"status": "error"}, status=400)
