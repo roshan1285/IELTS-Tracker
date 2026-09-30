@@ -245,3 +245,21 @@ class ReadingTest(models.Model):
             self.band = self.calculate_reading_band_score()
 
         super().save(*args, **kwargs)
+
+    
+ 
+class SpeakingTest(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="speaking_tests",
+    )
+    score = models.DecimalField(max_digits=3, decimal_places=1, choices=BAND_SCORE_CHOICES, null=True, blank=True)
+    taken_at = models.DateTimeField(auto_now_add=True)
+ 
+    class Meta:
+        ordering = ["-taken_at"]
+ 
+    def __str__(self):
+        return f"{self.user} — Speaking ({self.taken_at:%d %b %Y})"
+ 

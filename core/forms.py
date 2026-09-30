@@ -103,3 +103,8 @@ class ProfileSettingsForm(forms.ModelForm):
             "TO": "Target Overall",
         }
  
+class SpeakingScoreForm(forms.Form):
+    score = forms.DecimalField(
+        max_digits=3, decimal_places=1, min_value=0, max_value=9,
+        widget=forms.NumberInput(attrs={"step": "0.5", "placeholder": "e.g. 6.5"}),
+    )

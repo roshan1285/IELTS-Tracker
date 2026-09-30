@@ -24,4 +24,7 @@ urlpatterns=[
     path("reading/<int:pk>/score/", views.reading_score, name="reading_score"),
     path("reading/<int:pk>/revisit/", views.reading_revisit, name="reading_revisit"),
 
+    path("speaking/tests/", views.speaking_tests, name="speaking_tests"),
+    path("speaking/new/", views.speaking_practice, name="speaking_practice"),
+
 ]

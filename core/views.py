@@ -10,8 +10,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .utils import calculate_listening_band_score, calculate_reading_band_score
 
-from .models import WritingTest, ListeningTest, ReadingTest
-from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm, ProfileSettingsForm
+from .models import ListeningTest, ReadingTest, WritingTest, SpeakingTest
+from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm, SpeakingScoreForm, ProfileSettingsForm
 
 
 # Create your views here.
@@ -63,41 +63,60 @@ def home(request):
     last_listening_tests=ListeningTest.objects.filter(user=request.user).order_by("taken_at").only("score")[:last_no_tests]
     last_reading_tests=ReadingTest.objects.filter(user=request.user).order_by("taken_at").only("score")[:last_no_tests]
     last_writing_tests=WritingTest.objects.filter(user=request.user, status="completed").order_by("completed_at").only("task1_score", "task2_score")[:last_no_tests]
+    last_speaking_tests=SpeakingTest.objects.filter(user=request.user).order_by("taken_at").only("score")[:last_no_tests]
 
-    listening_scores = [0.0 if t.score is None else t.score for t in last_listening_tests]
-    reading_scores = [0.0 if t.score is None else t.score for t in last_reading_tests]
-    writing_scores = [0.0 if t.overall_score is None else float(str(t.overall_score)) for t in last_writing_tests]
+    if last_listening_tests.count() != 0:
+        try:
+            listening_scores = [0.0 if t.score is None else t.score for t in last_listening_tests]
+            no_listening_tests=len(listening_scores)
+            listening_score= round_to_half(sum(listening_scores)/no_listening_tests)
+            listening_band=calculate_listening_band_score(listening_score)
+        except:
+            listening_band=0.0
+    else:
+        listening_band=0.0
 
-    no_listening_tests=len(listening_scores)
-    no_reading_tests=len(reading_scores)
-    no_writing_tests=len(writing_scores)
+    if last_reading_tests.count() != 0:
+        try:
+            reading_scores = [0.0 if t.score is None else t.score for t in last_reading_tests]
+            no_reading_tests=len(reading_scores)
+            reading_score= round_to_half(sum(reading_scores)/no_reading_tests)
+            reading_band=calculate_reading_band_score(reading_score)
+        except:
+            reading_band=0.0
+    else:
+        reading_band=0.0
 
-    listening_score= round_to_half(sum(listening_scores)/no_listening_tests)
-    reading_score= round_to_half(sum(reading_scores)/no_reading_tests)
+    if last_writing_tests.count() != 0:
+        try:
+            writing_scores = [0.0 if t.overall_score is None else float(str(t.overall_score)) for t in last_writing_tests]
+            no_writing_tests=len(writing_scores)
+            writing_band= round_to_half(sum(writing_scores)/no_writing_tests)
+        except:
+            writing_band=0.0
+    else:
+        writing_band=0.0
 
-    listening_band=calculate_listening_band_score(listening_score)
-    reading_band=calculate_reading_band_score(reading_score)
-    writing_band= round_to_half(sum(writing_scores)/no_writing_tests)
-    speaking_band=5.5
+    if last_speaking_tests.count() != 0:
+        try:
+            speaking_scores = [0.0 if t.score is None else float(str(t.score)) for t in last_speaking_tests]
+            no_speaking_tests=len(speaking_scores)
+            speaking_band= round_to_half(sum(speaking_scores)/no_speaking_tests)
+        except:
+            speaking_band=0.0
+    else: 
+        speaking_band=0.0
+  
 
-    targeted_listening=float(str(request.user.TL))
-    targeted_reading=float(str(request.user.TR))
-    targeted_writing=float(str(request.user.TW))
-    targeted_speaking=float(str(request.user.TS))
+    targeted_listening=float(str(request.user.TL)) or 0.0
+    targeted_reading=float(str(request.user.TR)) or 0.0
+    targeted_writing=float(str(request.user.TW)) or 0.0
+    targeted_speaking=float(str(request.user.TS)) or 0.0
 
     overall_band = round_to_half(
         (listening_band + reading_band + writing_band + speaking_band) / 4
     )
     targeted_overall_band=float(str(request.user.TO))
-
-    print(targeted_listening)
-    print(listening_band)
-
-    print(targeted_reading)
-    print(reading_band)
-
-    print(targeted_writing)
-    print(writing_band)
 
     modules = _with_pct([
         {"name": "Listening", "slug": "listening", "current": listening_band, "target": targeted_listening},
@@ -148,7 +167,6 @@ def home(request):
     # print("Days to exam: ",days_to_exam(request.user.exam_date))
     context = {
        
-        "exam_date": "19 Oct 2026",
         "overall": overall,
         "modules": modules,
         "practice_options": practice_options,
@@ -350,6 +368,26 @@ def reading_tests(request):
         "average_band": float(average_band),
     }
     return render(request, "core/listening_reading_tests.html", context)
+
+@login_required
+def speaking_practice(request):
+    if request.method == "POST":
+        form = SpeakingScoreForm(request.POST)
+        if form.is_valid():
+            SpeakingTest.objects.create(user=request.user, score=form.cleaned_data["score"])
+            return redirect("home")
+    else:
+        form=SpeakingScoreForm()
+            
+    return render(request, "core/speaking_practice.html", {"form": form})
+
+
+@login_required
+def speaking_tests(request):
+    tests_objs = SpeakingTest.objects.filter(user=request.user).order_by('taken_at').only('taken_at', 'score')
+    context={'tests':tests_objs
+    }
+    return render(request, "core/speaking_tests.html", context)
 
 @login_required
 def settings_view(request):

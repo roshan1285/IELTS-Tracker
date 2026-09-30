@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %} Speaking — enter score {% endblock %}
+
+<!-- Forces the dark background canvas -->
+{% block body_classes %}class="ielts-body"{% endblock %}
+
+<!-- Loads your standard form styling -->
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/writing.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/forms.css' %}">
+{% endblock %}
+
+{% block tests_header %}{% endblock %}
+{% block tests_name %}{% endblock %}
+
+<!-- Centers the form and restricts the width -->
+{% block shell %} class="shell narrow" {% endblock %}
+
+{% block content %}
+    <header class="topbar">
+      <h1>Speaking</h1>
+      <a class="settings-link" href="{% url 'home' %}">Back home</a>
+    </header>
+
+    <p class="practice-sub" style="margin-top: -8px; margin-bottom: 24px; color: var(--text-muted); font-size: 15px;">
+        Log the band you were assessed at — no sheet, just the score.
+    </p>
+
+    <form method="post" class="setup-form" novalidate>
+      {% csrf_token %}
+      <div class="form-row">
+        <label class="field-label" for="{{ form.score.id_for_label }}">Band</label>
+        {{ form.score }}
+      </div>
+      <button type="submit" class="primary-btn">Save record</button>
+    </form>
+{% endblock %}

@@ -14,6 +14,7 @@
         <table class="history-table">
           <thead>
             <tr>
+              <th style="width: 40px;">#</th>
               <th>Date</th>
               <th>Type</th>
               <th>Status</th>
@@ -26,6 +27,7 @@
           <tbody>
             {% for test in tests %}
             <tr>
+              <td class="muted">{{ forloop.counter }}</td>
               <td class="date-cell">{{ test.started_at|date:"d M Y" }}</td>
               <td class="module-cell">
                 <!-- Change these variables based on your actual model properties -->

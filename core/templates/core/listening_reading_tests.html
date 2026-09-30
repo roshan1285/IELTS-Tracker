@@ -15,6 +15,7 @@
         <table class="history-table">
           <thead>
             <tr>
+              <th style="width: 40px;">#</th>
               <th>Date</th>
               <th class="text-right">Score</th>
               <th class="text-right">Band</th>
@@ -24,6 +25,7 @@
           <tbody>
             {% for test in tests %}
             <tr>
+                <td class="muted">{{ forloop.counter }}</td>
               <td class="date-cell">{{ test.taken_at|date:"d M Y" }}</td>
               <td class="score-cell text-right">
                 {% if test.score %}
