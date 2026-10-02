@@ -284,7 +284,7 @@ def listening_score(request, pk):
 def listening_tests(request):
     tests = ListeningTest.objects.filter(user=request.user)
 
-    if tests.count != 0:
+    if tests.count() != 0:
         last_tests = tests[:5]
         last_tests_count = last_tests.count()
         average_scores = [ i.score for i in last_tests ]
