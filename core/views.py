@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from datetime import date
-import math
 
 from django.contrib.auth import login
 from .forms import SignUpForm
@@ -8,7 +7,7 @@ from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .utils import calculate_listening_band_score, calculate_reading_band_score
+from .utils import calculate_listening_band_score, calculate_reading_band_score, round_to_half
 
 from .models import ListeningTest, ReadingTest, WritingTest, SpeakingTest
 from .forms import WritingSetupForm, WritingScoreForm, RawScoreForm, SpeakingScoreForm, ProfileSettingsForm
@@ -51,9 +50,6 @@ def _with_pct(entries):
         e["current_pct"] = round(e["current"] / MAX_BAND * 100, 1)
         e["target_pct"] = round(e["target"] / MAX_BAND * 100, 1)
     return entries
-
-def round_to_half(x):
-    return math.floor(x * 2 + 0.5) / 2
 
 
 @login_required

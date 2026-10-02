@@ -56,7 +56,7 @@
           <!-- Grid matching your exact model field names -->
           <div class="goals-grid">
             <div class="form-row">
-              <label class="field-label" for="{{ form.TL.id_for_label }}">{{ form.TL.label }}</label>
+              <label class="field-label over-all" for="{{ form.TL.id_for_label }}">{{ form.TL.label }}</label>
               {{ form.TL }}
               {% if form.TL.errors %}<p class="field-error">{{ form.TL.errors|striptags }}</p>{% endif %}
             </div>
@@ -76,7 +76,7 @@
               {% if form.TS.errors %}<p class="field-error">{{ form.TS.errors|striptags }}</p>{% endif %}
             </div>
              <div class="form-row">
-              <label class="field-label" for="{{ form.TO.id_for_label }}">{{ form.TO.label }}</label>
+              <label class="field-label" for="{{ form.TO.id_for_label }}" readonly>{{ form.TO.label }}</label>
               {{ form.TO }}
               {% if form.TO.errors %}<p class="field-error">{{ form.TO.errors|striptags }}</p>{% endif %}
             </div>
@@ -89,5 +89,49 @@
       <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
     </div>
   </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const targetFields = document.querySelectorAll('#id_TL, #id_TR, #id_TW, #id_TS');
+  targetFields.forEach(inputField => {
+
+    inputField.addEventListener('input', function() {
+        // 1. Grab the current values from the inputs
+        const L = document.getElementById('id_TL').value || 0;
+        const R = document.getElementById('id_TR').value || 0;
+        const W = document.getElementById('id_TW').value || 0;
+        const S = document.getElementById('id_TS').value || 0;
+        
+        // 2. Grab the hidden CSRF token Django generates in the template
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        // 3. Send the data to your Django URL
+        fetch('{% url "core:calculate_overall_band_score" %}', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken 
+            },
+            
+            body: JSON.stringify({ 
+                L: L, 
+                R: R, 
+                W: W, 
+                S: S 
+            })
+        })
+        .then(response => response.json()) // Tell JS to expect a JSON response from Django
+        .then(data => {
+            // 4. Inject the returned value directly into the target input's value attribute
+            // This assumes your Django view returns a dictionary like: {"result": 42}
+            document.getElementById('id_TO').value = data.overall_band;
+        })
+        .catch(error => {
+            console.error('API Error:', error);
+        });
+    });
+  });
+});
+
+</script>
 </body>
 </html>

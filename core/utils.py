@@ -1,5 +1,10 @@
 from .models import CustomUser, ListeningTest, ReadingTest, WritingTest
 
+from django.http import JsonResponse
+import json
+
+import math
+
 def calculate_listening_band_score(score):
 
     if score is None:
@@ -47,3 +52,23 @@ def calculate_reading_band_score(score):
         if score == 2: return 1.5
         if score == 1: return 1.0
         return 0.0
+
+def round_to_half(x):
+    return math.floor(x * 2 + 0.5) / 2
+
+
+def calculate_overall_band_score(request):
+
+    if request.method == "POST":
+        data= json.loads(request.body)
+
+        L=float(data.get('L', 0))
+        R=float(data.get('R', 0))
+        W=float(data.get('W', 0))
+        S=float(data.get('S', 0))
+        
+        overall_band = round_to_half(
+            (L + R + W + S) / 4
+        )
+
+        return JsonResponse({"overall_band":overall_band})

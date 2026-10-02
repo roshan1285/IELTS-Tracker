@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, utils
 
 
 app_name='core'
@@ -28,4 +28,6 @@ urlpatterns=[
     path("speaking/new/", views.speaking_practice, name="speaking_practice"),
 
     path('theme/toggle/', views.toggle_theme, name='toggle_theme'),
+
+    path("api/calculate_overall_band_score/", utils.calculate_overall_band_score, name="calculate_overall_band_score"),
 ]
