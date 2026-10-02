@@ -1,6 +1,12 @@
 venv/
 *.sqlite3
 
+*.env
+*pgsql
+*.pyc
+*.cpython
+*.cpython-310.pyc
+
 /venv/
 /venv
 *.pyc
