@@ -62,7 +62,12 @@
               <td class="date-cell">{{ test.completed_at|date:"d M Y" }}</td>
               <td class="action-cell text-right">
                 <!-- Replace # with your actual view URL -->
-                <a href="{% url 'core:writing_practice' test.pk %}" class="action-link">Revisit</a>
+
+                {% if test.status == 'completed' %}
+                  <a href="{% url 'core:writing_practice' test.pk %}" class="action-link">Revisit</a>
+                {% else %}
+                  <a href="{% url 'core:writing_practice' test.pk %}" class="action-link">Complete</a>
+                {% endif %}
               </td>
             </tr>
             {% empty %}
