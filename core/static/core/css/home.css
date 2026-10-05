@@ -110,6 +110,13 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--text-muted);
 }
 
+#btnIELTSCalculator {
+  margin-top: 15px;
+  text-align: center;         /* Centers the text inside the button */
+  display: inline-block;      /* Stops it from acting like a full-width block */
+  width: fit-content;         /* Forces the button to only be as wide as the text */
+  align-self: flex-start;     /* If it is inside a flex container, this pushes it left and stops stretching */
+}
 /* ---------- Side-by-Side Overview ---------- */
 .overview {
   display: grid;

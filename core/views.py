@@ -413,3 +413,7 @@ def toggle_theme(request):
         return JsonResponse({"status": "success", "theme": new_theme})
         
     return JsonResponse({"status": "error"}, status=400)
+
+def ielts_band_calculator(request):
+
+    return render(request,"core/calculator.html")

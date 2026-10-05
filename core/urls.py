@@ -27,6 +27,8 @@ urlpatterns=[
     path("speaking/tests/", views.speaking_tests, name="speaking_tests"),
     path("speaking/new/", views.speaking_practice, name="speaking_practice"),
 
+    path("ielts-band-calculator/", views.ielts_band_calculator, name="ielts_band_calculator"),
+
     path('theme/toggle/', views.toggle_theme, name='toggle_theme'),
 
     path("api/calculate_overall_band_score/", utils.calculate_overall_band_score, name="calculate_overall_band_score"),

@@ -10,6 +10,9 @@
         <p class="label">Current Overall Band</p>
         <div class="big-score">{{ overall.current }}</div>
         <p class="target-label">Target Aim: <strong>{{ overall.target }}</strong></p>
+        <a type="button" id="btnIELTSCalculator" href="{% url 'core:ielts_band_calculator' %}" class="btn btn-primary btn-lg font-weight-bold shadow-sm">
+          Calculate Score
+        </a>
       </div>
 
       <div class="overview-right">

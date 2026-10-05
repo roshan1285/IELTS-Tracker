@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %} Ielts Calculator (Latest) {% endblock%}
+{% block extra_head%}
+<link rel="stylesheet" href="{% static 'core/css/table.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+{% endblock %}
+{% block tests_header %}{% endblock %}
+{% block tests_name %}  {% endblock %}
+{% block test_setup_url %} {% endblock %}
+{% block content %}
+
+<div class="card shadow border-0" style="max-width: 500px; margin: auto;">
+    <div class="card-header bg-primary text-white text-center py-3">
+        <h4 class="mb-0"><i class="fas fa-graduation-cap mr-2"></i>IELTS Band Calculator</h4>
+    </div>
+    <div class="card-body p-4">
+        <div class="form-row">
+            <!-- Listening -->
+            <div class="col-6 mb-3">
+                <label for="id_TL" class="field-label font-weight-bold text-secondary">Listening</label>
+                <input type="number" id="id_TL" class="form-control form-control-lg" min="0" max="9" step="0.5" placeholder="0.0">
+            </div>
+            
+            <!-- Reading -->
+            <div class="col-6 mb-3 ">
+                <label for="id_TR" class="field-label font-weight-bold text-secondary">Reading</label>
+                <input type="number" id="id_TR" class="form-control form-control-lg" min="0" max="9" step="0.5" placeholder="0.0">
+            </div>
+            
+            <!-- Writing -->
+            <div class="col-6 mb-3">
+                <label for="id_TW" class="field-label font-weight-bold text-secondary">Writing</label>
+                <input type="number" id="id_TW" class="form-control form-control-lg" min="0" max="9" step="0.5" placeholder="0.0">
+            </div>
+            
+            <!-- Speaking -->
+            <div class="col-6 mb-3">
+                <label for="id_TS" class="field-label font-weight-bold text-secondary">Speaking</label>
+                <input type="number" id="id_TS" class="form-control form-control-lg" min="0" max="9" step="0.5" placeholder="0.0">
+            </div>
+        </div>
+
+        {% comment %} <button type="button" id="btnCalculateBand" class="btn btn-primary btn-lg btn-block mt-2 font-weight-bold shadow-sm">
+            Calculate Score
+        </button> {% endcomment %}
+
+        <hr class="my-4">
+
+        <!-- Result Display -->
+        <div class="form-row text-center rounded bg-light p-4 border border-light shadow-sm">
+            <h6 class="field-label text-uppercase text-muted font-weight-bold tracking-wide mb-2">Overall Band</h6>
+            <input type="number" id="id_TO" class="form-control form-control-lg" min="0" max="9" step="0.5" placeholder="0.0" readonly>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const targetFields = document.querySelectorAll('#id_TL, #id_TR, #id_TW, #id_TS');
+  targetFields.forEach(inputField => {
+
+    inputField.addEventListener('input', function() {
+        // 1. Grab the current values from the inputs
+        const L = document.getElementById('id_TL').value || 0;
+        const R = document.getElementById('id_TR').value || 0;
+        const W = document.getElementById('id_TW').value || 0;
+        const S = document.getElementById('id_TS').value || 0;
+        
+        // 2. Grab the hidden CSRF token Django generates in the template
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        // 3. Send the data to your Django URL
+        fetch('{% url "core:calculate_overall_band_score" %}', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken 
+            },
+            
+            body: JSON.stringify({ 
+                L: L, 
+                R: R, 
+                W: W, 
+                S: S 
+            })
+        })
+        .then(response => response.json()) // Tell JS to expect a JSON response from Django
+        .then(data => {
+            // 4. Inject the returned value directly into the target input's value attribute
+            // This assumes your Django view returns a dictionary like: {"result": 42}
+            document.getElementById('id_TO').value = data.overall_band;
+        })
+        .catch(error => {
+            console.error('API Error:', error);
+        });
+    });
+  });
+});
+
+</script>
+{% endblock%}
