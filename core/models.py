@@ -6,6 +6,7 @@ from datetime import date
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 BAND_SCORE_CHOICES = [
     ( 9.0, "9.0"),
@@ -76,7 +77,13 @@ class WritingTest(models.Model):
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="in_progress")
 
     task1_prompt = models.TextField(blank=True)
-    task1_image = models.ImageField(upload_to="writing_prompts/", blank=True, null=True)
+    # task1_image = models.ImageField(upload_to="writing_prompts/", blank=True, null=True)
+    task1_image = CloudinaryField(
+        "task1_image",
+        folder="writing_prompts",
+        blank=True,
+        null=True,
+    )
     task1_answer = models.TextField(blank=True)
     task1_score = models.DecimalField(max_digits=3, decimal_places=1, choices=BAND_SCORE_CHOICES,null=True, blank=True)
 
